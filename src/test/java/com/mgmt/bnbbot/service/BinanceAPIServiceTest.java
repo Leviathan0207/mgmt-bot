@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 public class BinanceAPIServiceTest {
 
@@ -26,6 +27,13 @@ public class BinanceAPIServiceTest {
 		Mockito.when(reactiveConnector.reactiveGet(Mockito.eq(Host.BINANCE), Mockito.eq(TestConnectivity.URL),
 				Mockito.anyMap(), Mockito.anyMap(), Mockito.eq(TestConnectivity.Response.class)))
 				.thenReturn(Mono.just(TestConnectivity.Response.builder().build()));
+		StepVerifier.create(binanceAPIService.testConnectivity()).expectNextMatches(result -> {
+			Assertions.assertNotNull(result);
+			Mockito.verify(reactiveConnector, Mockito.atLeastOnce()).reactiveGet(Mockito.eq(Host.BINANCE),
+					Mockito.eq(TestConnectivity.URL), Mockito.anyMap(), Mockito.anyMap(),
+					Mockito.eq(TestConnectivity.Response.class));
+			return true;
+		}).verifyComplete();
 		Assertions.assertNotNull(binanceAPIService.testConnectivity());
 	}
 
