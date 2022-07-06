@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServer2012Dialect
+      hibernate.default_batch_fetch_size: 8
+      hibernate.jdbc.fetch_size: 8
+#############DEV##############
+---
+spring:
+  profiles: DEV
+  datasource:
+#    url: TODO
+  jpa:
+    show-sql: true
+
+connection:
+  binance:
+    url: https://api.binance.com
